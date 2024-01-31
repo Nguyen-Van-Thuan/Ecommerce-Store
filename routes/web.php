@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,18 +18,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
 // Trang quan tri
 Route::get('/dashboad', function () {
     return view('admin.dashboad.index');
 })->name('dashboard');
 
-// Trang chu
+// HomePage
 Route::get('/home', function () {
     return view('client.layouts.app');
 });
 
 // Trang phan quyen nguoi dung
 Route::resource('roles', RoleController::class);
+
+// Trang User
+Route::resource('users', UserController::class);
 
 Auth::routes();

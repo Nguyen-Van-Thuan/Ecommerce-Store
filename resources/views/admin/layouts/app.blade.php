@@ -312,7 +312,7 @@
     <script src="{{ asset('admin/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/chartjs.min.js') }}"></script>
-    <script>
+    {{-- <script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
 
         new Chart(ctx, {
@@ -558,7 +558,7 @@
                 },
             },
         });
-    </script>
+    </script> --}}
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -572,6 +572,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('admin/assets/js/material-dashboard.min.js?v=3.1.0') }}"></script>
+    @yield('script')
 </body>
 
 </html>
