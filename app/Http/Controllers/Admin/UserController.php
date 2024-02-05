@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\CreateUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -48,11 +49,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
         $dataCreate = $request->all();
         $dataCreate['password'] = Hash::make($request->password);
-        $dataCreate['image'] = $this->saveImage($request);
+        $dataCreate['image'] = $this->user->saveImage($request);
+
+        $user = $this->user->create($dataCreate);
+        $user->images()->create(['url' => $dataCreate['image']]);
+        $user->roles()->attach($dataCreate['role_ids']);
+        return to_route('users.index')->with(['message' => 'create succes']);
+
     }
 
     /**
@@ -74,7 +81,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = $this->user->findOrFail($id)->load('roles');
+        $roles = $this->role->all()->groupBy('group');
+
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**

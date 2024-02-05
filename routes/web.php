@@ -34,4 +34,4 @@ Route::resource('roles', RoleController::class);
 // Trang User
 Route::resource('users', UserController::class);
 
-Auth::routes();
+// Auth::routes();

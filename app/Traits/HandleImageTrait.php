@@ -3,11 +3,10 @@
 namespace App\Traits;
 
 use Image;
-use Illuminate\Support\Facades\Storage;
 
 trait HandleImageTrait
 {
-    protected string $path = 'public/upload/';
+    protected string $path = 'upload/users/';
 
     public function verify($request)
     {
@@ -16,8 +15,13 @@ trait HandleImageTrait
 
     public function saveImage($request)
     {
+        if ($this->verify($request)) {
+            $image = $request->file('image');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(300, 300)->save($this->path . $name);
+            return $name;
+        }
     }
-
     public function updateImage($request, $currentImage)
     {
         if ($this->verify($request)) {
@@ -29,5 +33,8 @@ trait HandleImageTrait
 
     public function deleteImage($imageName)
     {
+        if (file_exists($this->path . $imageName)) {
+            unlink($this->path . $imageName);
+        }
     }
 }
