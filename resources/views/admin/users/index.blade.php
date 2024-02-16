@@ -3,10 +3,10 @@
 
 @section('content')
     <div class="card">
+        <h1>User list</h1>
         @if (session('message'))
             <h1 class="text-primary">{{ session('message') }}</h1>
         @endif
-        <h1>User list</h1>
         <div>
             <a href="{{ route('users.create') }}" class="btn btn-primary">Create</a>
         </div>
@@ -14,6 +14,7 @@
             <table class="table table-hover">
                 <tr>
                     <th>#</th>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
@@ -23,6 +24,7 @@
                 @foreach ($users as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
+                        <td><img src="{{ $item->images->count() > 0 ? asset('upload/users/' . $item->images->first()->url) : 'upload/users/default.png' }}" width="100px" height="100px" alt="" style="object-fit: cover"></td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->email }}</td>
                         <td>{{ $item->phone }}</td>

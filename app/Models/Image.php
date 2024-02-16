@@ -14,4 +14,10 @@ class Image extends Model
         'imageable_id',
         'imageable_type'
     ];
+
+    // Tao quan he voi bang user
+    public function imageable()
+    {
+        return $this->morphTo();
+    }
 }
