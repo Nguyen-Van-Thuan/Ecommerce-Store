@@ -7,7 +7,6 @@ use App\Http\Requests\Roles\CreateRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
 use App\Models\Permisson;
 use App\Models\Role;
-use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -18,7 +17,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::latest('id')->paginate(3);
+        $roles = Role::latest('id')->paginate(10);
         return view('admin.roles.index', compact('roles'));
     }
 

@@ -18,7 +18,7 @@
                         @enderror
                     </div>
                     <div class="col-5">
-                        <img src="" id="show-image" alt="">
+                        <img src="" id="show-image" alt="" style="width:150px">
                     </div>
                 </div>
 
@@ -120,11 +120,11 @@
     <script>
         $(document).ready(function() {
             console.log("Tài liệu đã sẵn sàng");
+
             function readURL(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function(e) {
-                        console.log("123");
                         $('#show-image').attr('src', e.target.result);
                     };
                     reader.readAsDataURL(input.files[0]);
