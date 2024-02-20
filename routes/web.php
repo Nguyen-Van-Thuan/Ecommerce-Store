@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -28,10 +29,13 @@ Route::get('/home', function () {
     return view('client.layouts.app');
 });
 
+Auth::routes();
+
 // Trang phan quyen nguoi dung
 Route::resource('roles', RoleController::class);
 
 // Trang User
 Route::resource('users', UserController::class);
 
-Auth::routes();
+// Trang category
+Route::resource('categories', CategoryController::class);
