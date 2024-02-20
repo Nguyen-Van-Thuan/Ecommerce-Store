@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    protected $category;
+    protected Category $category;
 
     public function __construct(Category $category)
     {
