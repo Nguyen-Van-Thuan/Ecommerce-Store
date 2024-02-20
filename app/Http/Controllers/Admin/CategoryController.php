@@ -50,7 +50,7 @@ class CategoryController extends Controller
         $dataCreate = $request->all();
         $category = $this->category->create($dataCreate);
 
-        return redirect()->route('categories.index')->with(['message' => 'Create new category: '. $category->name. ' successfull']);
+        return redirect()->route('categories.index')->with(['message' => 'Create new category: ' . $category->name . ' successfull']);
     }
 
     /**
@@ -72,7 +72,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = $this->category->with('childrens')->findOrFail($id);
+        $category =  $this->category->with('childrens')->findOrFail($id);
         $parentCategories = $this->category->getParents();
 
         return view('admin.categories.edit', compact('category', 'parentCategories'));
@@ -91,10 +91,9 @@ class CategoryController extends Controller
 
         $category = $this->category->findOrFail($id);
 
-        $category->updated($dataUpdate);
+        $category->update($dataUpdate);
 
-        return redirect()->route('categories.index')->with(['message' => 'Update category: '. $category->name. ' successfull']);
-
+        return redirect()->route('categories.index')->with(['message' => 'Update category: ' . $category->name . ' successfull']);
     }
 
     /**
@@ -105,6 +104,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        $category = $this->category->findOrFail($id);
+        $category->delete();
 
+        return redirect()->route('categories.index')->with(['message' => 'Delete category: ' . $category->name . ' successfull']);
     }
 }

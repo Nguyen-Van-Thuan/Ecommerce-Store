@@ -26,11 +26,13 @@
                         <td>{{ $role->display_name }}</td>
                         <td class="d-flex gap-3">
                             <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning ">Edit</a>
-                            <form action="{{ route('roles.destroy', $role->id) }}" method="post">
+                            <form action="{{ route('roles.destroy', $role->id) }}" id="form-delete{{ $role->id }}"
+                                method="post">
                                 @csrf
                                 @method('delete')
-                                <button class="btn btn-danger">Delete</button>
                             </form>
+
+                            <button class="btn btn-delete btn-danger" data-id={{ $role->id }}>Delete</button>
                         </td>
                     </tr>
                 @endforeach

@@ -7,7 +7,6 @@
             <h1 class="text-primary">{{ session('message') }}</h1>
         @endif
 
-
         <h1>
             Category list
         </h1>
@@ -30,10 +29,10 @@
                         <td>{{ $item->name }}</td>
 
                         <td>{{ $item->parent_name }}</td>
-                        <td>
+                        <td class="d-flex gap-3">
                             <a href="{{ route('categories.edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('categories.destroy', $item->id) }}"
-                                id="form-delete{{ $item->id }}" method="post">
+                            <form action="{{ route('categories.destroy', $item->id) }}" id="form-delete{{ $item->id }}"
+                                method="post">
                                 @csrf
                                 @method('delete')
 
@@ -45,12 +44,6 @@
             </table>
             {{ $categories->links() }}
         </div>
-
     </div>
 
-@endsection
-
-@section('script')
-
-    <script></script>
 @endsection
