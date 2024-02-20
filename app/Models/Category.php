@@ -13,4 +13,23 @@ class Category extends Model
         'name',
         'parent_id',
     ];
+
+    // Cài  đặt quan hệ
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+    public function childrens()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+    public function getParentNameAttribute()
+    {
+        return optional($this->parent)->name;
+    }
+
+    public function getParents()
+    {
+        return Category::whereNull('parent_id')->with('childrens')->get(['id', 'name']);
+    }
 }

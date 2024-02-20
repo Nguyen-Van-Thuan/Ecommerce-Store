@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->user->latest('id')->paginate(5);
+        $users = $this->user->latest('id')->paginate(10);
         return view('admin.users.index', compact('users'));
     }
 
@@ -133,6 +133,5 @@ class UserController extends Controller
         $user->delete();
 
         return to_route('users.index')->with(["message" => "Delete success"]);
-
     }
 }
