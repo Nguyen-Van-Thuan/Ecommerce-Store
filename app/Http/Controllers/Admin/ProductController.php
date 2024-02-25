@@ -94,7 +94,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        // $product = $this->product->
     }
 
     /**
@@ -120,3 +120,6 @@ class ProductController extends Controller
         //
     }
 }
+
+
+// php artisan migrate:refresh --path=database/migrations/2024_01_20_094346_create_product_details_table.php
