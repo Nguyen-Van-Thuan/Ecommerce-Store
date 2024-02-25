@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Products\CreateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductDetail;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -12,11 +14,14 @@ class ProductController extends Controller
 
     protected $category;
     protected $product;
+    protected $productDetail;
+    protected $user;
 
-    public function __construct(Product $product,  Category $category)
+    public function __construct(Product $product,  Category $category, ProductDetail $productDetail)
     {
         $this->product = $product;
         $this->category = $category;
+        $this->productDetail = $productDetail;
     }
 
     /**
@@ -47,9 +52,27 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateProductRequest $request)
     {
-        //
+        $dataCreate = $request->except('sizes');
+        $sizes = $request->sizes ? json_decode($request->sizes) : [];
+
+        $product = Product::create($dataCreate);
+        $dataCreate['image'] = $this->product->saveImage($request);
+
+        $product->images()->create(['url' => $dataCreate['image']]);
+
+        // Them roles khi tao
+        $product->categories()->attach($dataCreate['category_ids']);
+
+        $sizeArray = [];
+        foreach ($sizes as $size) {
+            $sizeArray[] = ['size' => $size->size, 'quantity' => $size->quantity, 'product_id' => $product->id];
+        }
+
+        $this->productDetail->insert($sizeArray);
+
+        return redirect()->route('products.index')->with(['messge' => 'create product success']);
     }
 
     /**

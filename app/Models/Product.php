@@ -23,8 +23,15 @@ class Product extends Model
         return $this->hasMany(ProductDetail::class);
     }
 
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);
     }
+
+
 }

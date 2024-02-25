@@ -30,8 +30,13 @@
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>
-                            <img src="{{ $item->images ? asset('upload/' . $item->images->first()->url) : 'upload/default.png' }}"
-                                width="100px" height="100px" alt="" style="object-fit: cover">
+                            @if ($item->images && $item->images->first())
+                                <img src="{{ asset('upload/' . $item->images->first()->url) }}" width="100px" height="100px"
+                                    alt="" style="object-fit: cover">
+                            @else
+                                <img src="{{ asset('upload/default.png') }}" width="100px" height="100px" alt=""
+                                    style="object-fit: cover">
+                            @endif
                         </td>
                         <td>{{ $item->name }}</td>
 

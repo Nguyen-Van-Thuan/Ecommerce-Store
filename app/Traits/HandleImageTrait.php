@@ -6,7 +6,7 @@ use Image;
 
 trait HandleImageTrait
 {
-    protected $path = 'uploads/';
+    protected $path = 'upload/';
 
     public function verify($request)
     {
