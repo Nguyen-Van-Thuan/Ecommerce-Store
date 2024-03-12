@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\CreateProductRequest;
+use App\Http\Requests\Products\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductDetail;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -15,9 +15,8 @@ class ProductController extends Controller
     protected $category;
     protected $product;
     protected $productDetail;
-    protected $user;
 
-    public function __construct(Product $product,  Category $category, ProductDetail $productDetail)
+    public function __construct(Product $product, Category $category, ProductDetail $productDetail)
     {
         $this->product = $product;
         $this->category = $category;
@@ -31,7 +30,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->product->latest('id')->paginate(10);
+        $products = $this->product->latest('id')->paginate(5);
+
         return view('admin.products.index', compact('products'));
     }
 
@@ -57,22 +57,20 @@ class ProductController extends Controller
         $dataCreate = $request->except('sizes');
         $sizes = $request->sizes ? json_decode($request->sizes) : [];
 
-        $product = Product::create($dataCreate);
+        $product = $this->product->create($dataCreate);
+
+        // Xu ly hinh anh
         $dataCreate['image'] = $this->product->saveImage($request);
-
         $product->images()->create(['url' => $dataCreate['image']]);
-
-        // Them roles khi tao
-        $product->categories()->attach($dataCreate['category_ids']);
+        $product->assignCategory($dataCreate['category_ids']);
 
         $sizeArray = [];
         foreach ($sizes as $size) {
             $sizeArray[] = ['size' => $size->size, 'quantity' => $size->quantity, 'product_id' => $product->id];
         }
-
         $this->productDetail->insert($sizeArray);
 
-        return redirect()->route('products.index')->with(['messge' => 'create product success']);
+        return redirect()->route('products.index')->with(["message" => 'Update product success!']);
     }
 
     /**
@@ -83,7 +81,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = $this->product->with(['details', 'categories'])->findOrFail($id);
+        return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -94,7 +93,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        // $product = $this->product->
+        $product = $this->product->with(['details', 'categories'])->findOrFail($id);
+        $categories = $this->category->get(['id', 'name']);
+
+        return view('admin.products.edit', compact('categories', 'product'));
     }
 
     /**
@@ -104,9 +106,33 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
-        //
+        $dataUpdate = $request->except('sizes');
+        $sizes = $request->sizes ? json_decode($request->sizes) : [];
+
+        $product =  $this->product->findOrFail($id);
+
+
+        // Xu ly hinh anh
+        $currentImage = $product->images->count() > 0 ? $product->images->first()->url : '';
+        $dataUpdate['image'] = $this->product->updateImage($request, $currentImage);
+
+        $product->update($dataUpdate);
+
+        // Xu ly hinh anh
+        $product->images()->create(['url' => $dataUpdate['image']]);
+        $product->assignCategory($dataUpdate['category_ids']);
+
+        $sizeArray = [];
+        foreach ($sizes as $size) {
+            $sizeArray[] = ['size' => $size->size, 'quantity' => $size->quantity, 'product_id' => $product->id];
+        }
+
+        $product->details()->delete();
+        $this->productDetail->insert($sizeArray);
+
+        return redirect()->route('products.index')->with(["message" => 'create product success!']);
     }
 
     /**
@@ -117,9 +143,15 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Lấy product ra
+        $product =  $this->product->findOrFail($id);
+        $product->delete();
+        $product->details()->delete();
+
+        // Remove Images
+        $imageName = $product->images->count() > 0 ? $product->images->first()->url : '';
+        $this->product->deleteImage($imageName);
+
+        return redirect()->route('products.index')->with(["message" => 'Delete product success!']);
     }
 }
-
-
-// php artisan migrate:refresh --path=database/migrations/2024_01_20_094346_create_product_details_table.php
