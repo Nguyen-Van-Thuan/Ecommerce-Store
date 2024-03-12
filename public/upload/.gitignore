@@ -1,0 +1,7 @@
+# Bỏ qua tất cả các tệp ảnh
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.svg

@@ -45,7 +45,7 @@
                         <td>{{ $item->sale }}</td>
                         <td class="d-flex gap-3">
                             <a href="{{ route('products.edit', $item->id) }}" class="btn btn-warning">Edit</a>
-
+                            <a href="{{ route('products.show', $item->id) }}" class="btn btn-warning">Show</a>
                             <form action="{{ route('products.destroy', $item->id) }}" id="form-delete{{ $item->id }}"
                                 method="post">
                                 @csrf

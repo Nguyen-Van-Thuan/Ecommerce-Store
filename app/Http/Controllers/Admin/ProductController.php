@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\CreateProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\ProductDetail;
 
@@ -108,6 +109,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, $id)
     {
+        // dd($request->all());
         $dataUpdate = $request->except('sizes');
         $sizes = $request->sizes ? json_decode($request->sizes) : [];
 
@@ -119,9 +121,14 @@ class ProductController extends Controller
         $dataUpdate['image'] = $this->product->updateImage($request, $currentImage);
 
         $product->update($dataUpdate);
+        $product->images()->delete();
 
         // Xu ly hinh anh
-        $product->images()->create(['url' => $dataUpdate['image']]);
+        $product->images()->updateOrCreate([
+            'url' => $dataUpdate['image']
+        ],[
+            'url' => $dataUpdate['image']
+        ]);
         $product->assignCategory($dataUpdate['category_ids']);
 
         $sizeArray = [];
@@ -130,6 +137,7 @@ class ProductController extends Controller
         }
 
         $product->details()->delete();
+
         $this->productDetail->insert($sizeArray);
 
         return redirect()->route('products.index')->with(["message" => 'create product success!']);

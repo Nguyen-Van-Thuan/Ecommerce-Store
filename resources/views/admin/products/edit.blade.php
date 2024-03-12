@@ -19,8 +19,12 @@
                         @enderror
                     </div>
                     <div class="col-5">
-                        <img src="{{ $product->images->count() > 0 ? asset('upload/' . $product->images->first()->url) : 'upload/default.png' }}"
-                            id="show-image" alt="">
+                        @if ($product->images->count() > 0)
+                            <img src="{{ asset('upload/' . $product->images->first()->url) }}" id="show-image"
+                                alt="">
+                        @else
+                        <img src="{{ asset('upload/default.png') }}" id="show-image" alt="">
+                        @endif
                     </div>
                 </div>
 
@@ -54,8 +58,7 @@
                 <div class="form-group">
                     <label>Description</label>
                     <div class="row w-100 h-100">
-                        <textarea name="description" id="description" class="form-control"
-                            style="width: 100%">{{ old('description') ?? $product->description }} </textarea>
+                        <textarea name="description" id="description" class="form-control" style="width: 100%">{{ old('description') ?? $product->description }} </textarea>
 
                     </div>
                     @error('description')
@@ -123,7 +126,6 @@
             justify-content: center;
             align-items: center
         }
-
     </style>
 @endsection
 @section('script')
