@@ -30,7 +30,7 @@
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>
-                            @if ($item->images && $item->images->first())
+                            @if ($item->images->count() > 0 && $item->images->first())
                                 <img src="{{ asset('upload/' . $item->images->first()->url) }}" width="100px" height="100px"
                                     alt="" style="object-fit: cover">
                             @else
