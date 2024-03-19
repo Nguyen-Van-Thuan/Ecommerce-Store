@@ -4,6 +4,9 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\ProductController as ClientProductController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,18 +20,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
+
+Route::get('product/{category_Id}', [ClientProductController::class, 'index'])->name('client.products.index');
+
+
 // Trang quan tri
 Route::get('/dashboad', function () {
     return view('admin.dashboad.index');
 })->name('dashboard');
-
-// HomePage
-Route::get('/home', function () {
-    return view('client.layouts.app');
-});
 
 Auth::routes();
 
