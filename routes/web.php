@@ -20,9 +20,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Trang người dùng
+
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('client.home');
 
 Route::get('product/{category_Id}', [ClientProductController::class, 'index'])->name('client.products.index');
+Route::get('product-detail/{id}', [ClientProductController::class, 'show'])->name('client.products.show');
 
 
 // Trang quan tri

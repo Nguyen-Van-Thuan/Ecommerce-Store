@@ -19,11 +19,12 @@ class ProductController extends Controller
         $this->product = $product;
     }
 
-    public function index($category_Id)
+    public function index(Request $request, $category_id)
     {
-        // $product = $this->product->getBy($request, $categoryId);
+        $products =  $this->product->getBy($request->all(), $category_id);
 
-        return view('client.products.index');
+
+        return view('client.products.index', compact('products'));
     }
 
     /**
@@ -55,7 +56,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = $this->product->with('details')->findOrFail($id);
+        return view('client.products.detail', compact('product'));
     }
 
     /**
