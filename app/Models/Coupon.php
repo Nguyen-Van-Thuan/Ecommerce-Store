@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Counpon extends Model
+class Coupon extends Model
 {
     use HasFactory;
 
@@ -15,4 +16,9 @@ class Counpon extends Model
         'value',
         'expery_date'
     ];
+
+    public function getExperyDateAttribute()
+    {
+        return Carbon::parse($this->attributes['expery_date'])->format('Y-m-d');
+    }
 }
