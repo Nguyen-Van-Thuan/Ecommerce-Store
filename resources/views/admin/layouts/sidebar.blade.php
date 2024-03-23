@@ -14,7 +14,8 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white {{request()->routeIs('dashboard') ? 'active bg-gradient-primary' : ''}}" href="{{route('dashboard')}}">
+                <a class="nav-link text-white {{ request()->routeIs('dashboard') ? 'active bg-gradient-primary' : '' }}"
+                    href="{{ route('dashboard') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
@@ -22,7 +23,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{request()->routeIs('roles.*') ? 'active bg-gradient-primary' : ''}}" href="{{route('roles.index')}}">
+                <a class="nav-link text-white {{ request()->routeIs('roles.*') ? 'active bg-gradient-primary' : '' }}"
+                    href="{{ route('roles.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
@@ -30,7 +32,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{request()->routeIs('users.*') ? 'active bg-gradient-primary' : ''}}" href="{{route('users.index')}}">
+                <a class="nav-link text-white {{ request()->routeIs('users.*') ? 'active bg-gradient-primary' : '' }}"
+                    href="{{ route('users.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>
                     </div>
@@ -38,7 +41,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{request()->routeIs('products.*') ? 'active bg-gradient-primary' : ''}}" href="{{route('products.index')}}">
+                <a class="nav-link text-white {{ request()->routeIs('products.*') ? 'active bg-gradient-primary' : '' }}"
+                    href="{{ route('products.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">view_in_ar</i>
                     </div>
@@ -46,11 +50,21 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{request()->routeIs('categories.*') ? 'active bg-gradient-primary' : ''}}" href="{{route('categories.index')}}">
+                <a class="nav-link text-white {{ request()->routeIs('categories.*') ? 'active bg-gradient-primary' : '' }}"
+                    href="{{ route('categories.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
                     </div>
                     <span class="nav-link-text ms-1">Category</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->routeIs('coupons.*') ? 'active bg-gradient-primary' : '' }}"
+                    href="{{ route('coupons.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                    </div>
+                    <span class="nav-link-text ms-1">coupon</span>
                 </a>
             </li>
         </ul>
