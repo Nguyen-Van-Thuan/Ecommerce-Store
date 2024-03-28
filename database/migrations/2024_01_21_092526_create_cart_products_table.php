@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('product_size');
             $table->string('product_color');
             $table->smallInteger('product_quantity');
-            $table->double('price');
+            $table->double('product_price');
 
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
