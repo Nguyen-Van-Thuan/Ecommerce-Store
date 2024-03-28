@@ -28,25 +28,26 @@ Route::get('/', [HomeController::class, 'index'])->name('client.home');
 Route::get('product/{category_Id}', [ClientProductController::class, 'index'])->name('client.products.index');
 Route::get('product-detail/{id}', [ClientProductController::class, 'show'])->name('client.products.show');
 
-
-// Trang quan tri
-Route::get('/dashboad', function () {
-    return view('admin.dashboad.index');
-})->name('dashboard');
-
 Auth::routes();
 
-// Trang phan quyen nguoi dung
-Route::resource('roles', RoleController::class);
+// Trang quan tri
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboad', function () {
+        return view('admin.dashboad.index');
+    })->name('dashboard');
 
-// Trang User
-Route::resource('users', UserController::class);
+    // Trang phan quyen nguoi dung
+    Route::resource('roles', RoleController::class);
 
-// Trang category
-Route::resource('categories', CategoryController::class);
+    // Trang User
+    Route::resource('users', UserController::class);
 
-// Trang Product
-Route::resource('products', ProductController::class);
+    // Trang category
+    Route::resource('categories', CategoryController::class);
 
-// Mã giảm giá
-Route::resource('coupons', CounponController::class);
+    // Trang Product
+    Route::resource('products', ProductController::class);
+
+    // Mã giảm giá
+    Route::resource('coupons', CounponController::class);
+});
