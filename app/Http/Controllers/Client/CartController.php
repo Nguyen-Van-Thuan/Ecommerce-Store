@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Cart\CartResource;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CartController extends Controller
 {
@@ -35,7 +37,9 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        $cart = $this->cart->firtOrCreateBy(auth()->user()->id)->load('products');
+
+        return view('client.carts.index', compact('cart'));
     }
 
     /**
@@ -80,7 +84,6 @@ class CartController extends Controller
                 $this->cartProduct->create($dataCreate);
             }
             return back()->with(['message' => 'Thêm thành công !']);
-
         } else {
             return back()->with(['message' => 'Ban chưa chọn size !']);
         }
@@ -129,5 +132,36 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updateQuantityProduct(Request $request, $id)
+    {
+        $cartProduct =  $this->cartProduct->find($id);
+        $dataUpdate = $request->all();
+        if ($dataUpdate['product_quantity'] < 1) {
+            $cartProduct->delete();
+        } else {
+            $cartProduct->update($dataUpdate);
+        }
+
+        $cart =  $cartProduct->cart;
+
+        return response()->json([
+            'product_cart_id' => $id,
+            'cart' => new CartResource($cart),
+            'remove_product' => $dataUpdate['product_quantity'] < 1,
+            'cart_product_price' => $cartProduct->total_price
+        ], Response::HTTP_OK);
+    }
+
+    public function removeProductInCart($id)
+    {
+        $cartProduct =  $this->cartProduct->find($id);
+        $cartProduct->delete();
+        $cart =  $cartProduct->cart;
+        return response()->json([
+            'product_cart_id' => $id,
+            'cart' => new CartResource($cart)
+        ], Response::HTTP_OK);
     }
 }
