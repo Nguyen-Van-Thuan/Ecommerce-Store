@@ -63,3 +63,4 @@ Route::middleware('auth')->group(function () {
     // Mã giảm giá
     Route::resource('coupons', CounponController::class);
 });
+

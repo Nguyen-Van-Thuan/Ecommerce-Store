@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Counpon;
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->id();
             $table->double('value');
 
-            $table->foreignIdFor(Counpon::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Coupon::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete();
             $table->timestamps();

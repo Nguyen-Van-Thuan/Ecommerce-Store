@@ -164,4 +164,27 @@ class CartController extends Controller
             'cart' => new CartResource($cart)
         ], Response::HTTP_OK);
     }
+
+    // public function applyCoupon(Request $request)
+    // {
+
+    //     $name = $request->input('coupon_code');
+
+    //     $coupon =  $this->coupon->firstWithExperyDate($name, auth()->user()->id);
+
+    //     // if ($coupon) {
+    //     //     $message = 'Áp Mã giảm giá thành công !';
+    //     //     Session::put('coupon_id', $coupon->id);
+    //     //     Session::put('discount_amount_price', $coupon->value);
+    //     //     Session::put('coupon_code', $coupon->name);
+    //     // } else {
+
+    //     //     Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
+    //     //     $message = 'Mã giảm giá không tồn tại hoặc hết hạn!';
+    //     // }
+
+    //     // return redirect()->route('client.carts.index')->with([
+    //     //     'message' => $message,
+    //     // ]);
+    // }
 }
