@@ -3,13 +3,14 @@
   @section('title', 'Cart')
   @section('content')
 
-
-      <div class="row px-xl-5">
-          @if (session('message'))
-              <div class="row">
+      @if (session('message'))
+          <div class="row">
+              <div class="col-lg-12 mb-5">
                   <h3 class="text-danger">{{ session('message') }}</h3>
               </div>
-          @endif
+          </div>
+      @endif
+      <div class="row px-xl-5">
           <div class="col-lg-8 table-responsive mb-5">
               <table class="table table-bordered text-center mb-0">
                   <thead class="bg-secondary text-dark">
@@ -81,7 +82,7 @@
               </table>
           </div>
           <div class="col-lg-4">
-              {{-- <form class="mb-5" method="POST" action="{{ route('client.carts.apply_coupon') }}">
+              <form class="mb-5" method="POST" action="{{ route('client.carts.apply_coupon') }}">
                   @csrf
                   <div class="input-group">
                       <input type="text" class="form-control p-4" value="{{ Session::get('coupon_code') }}"
@@ -90,7 +91,7 @@
                           <button class="btn btn-primary">Apply Coupon</button>
                       </div>
                   </div>
-              </form> --}}
+              </form>
               <div class="card border-secondary mb-5">
                   <div class="card-header bg-secondary border-0">
                       <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
@@ -118,8 +119,8 @@
                           <h5 class="font-weight-bold">Total</h5>
                           <h5 class="font-weight-bold total-price-all"></h5>
                       </div>
-                      {{-- <a href="{{ route('client.checkout.index') }}" class="btn btn-block btn-primary my-3 py-3">Proceed
-                          To Checkout</a> --}}
+                      <a href="{{ route('client.checkout.index') }}" class="btn btn-block btn-primary my-3 py-3">Proceed
+                          To Checkout</a>
                   </div>
               </div>
           </div>
