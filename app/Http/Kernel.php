@@ -67,6 +67,9 @@ class Kernel extends HttpKernel
 
         'user.can_checkout_cart' => UserCanCheckoutCartMiddeleware::class,
 
+        'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
 
     ];
 }
