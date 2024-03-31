@@ -10,6 +10,7 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\ProductController as ClientProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,4 +70,8 @@ Route::middleware('auth')->group(function () {
 
     // Mã giảm giá
     Route::resource('coupons', CounponController::class);
+
+    Route::get('orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+    Route::post('update-status/{id}', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.update_status');
+
 });
