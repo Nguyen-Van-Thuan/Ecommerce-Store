@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Permisson;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class RoleDatabaseSeeder extends Seeder
@@ -32,6 +33,15 @@ class RoleDatabaseSeeder extends Seeder
         foreach ($roles as $role) {
             Role::updateOrCreate($role);
         }
+
+        // Create supper admin default
+        $superAdmin = User::whereEmail('thuan.nv@netbasejsc.com')->first();
+
+        if (!$superAdmin) {
+            $superAdmin = User::factory()->create(['email' => 'thuan.nv@netbasejsc.com']);
+        }
+        $superAdmin->assignRole('super-admin');
+
 
         // Seeder Permissons
         $permissions = [

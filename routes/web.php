@@ -56,22 +56,61 @@ Route::middleware('auth')->group(function () {
         return view('admin.dashboad.index');
     })->name('dashboard');
 
-    // Trang phan quyen nguoi dung
-    Route::resource('roles', RoleController::class);
+    // Route::resource('roles', RoleController::class);
+    Route::prefix('roles')->controller(RoleController::Class)->name('roles.')->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('role:super-admin');
+        Route::post('/', 'store')->name('store')->middleware('role:super-admin');
+        Route::get('/create', 'create')->name('create')->middleware('role:super-admin');
+        Route::get('/{coupon}', 'show')->name('show')->middleware('role:super-admin');
+        Route::put('/{coupon}', 'update')->name('update')->middleware('role:super-admin');
+        Route::delete('/{coupon}', 'destroy')->name('destroy')->middleware('role:super-admin');
+        Route::get('/{coupon}/edit', 'edit')->name('edit')->middleware('role:super-admin');
+    });
+    // Route::resource('users', UserController::class);
+    Route::prefix('users')->controller(UserController::Class)->name('users.')->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('permission:show-user');
+        Route::post('/', 'store')->name('store');
+        Route::get('/create', 'create')->name('create')->middleware('permission:create-user');
+        Route::get('/{coupon}', 'show')->name('show')->middleware('permission:show-user');
+        Route::put('/{coupon}', 'update')->name('update')->middleware('permission:update-user');
+        Route::delete('/{coupon}', 'destroy')->name('destroy')->middleware('permission:delete-user');
+        Route::get('/{coupon}/edit', 'edit')->name('edit')->middleware('permission:update-user');
+    });
+    // Route::resource('categories', CategoryController::class);
+    Route::prefix('categories')->controller(CategoryController::Class)->name('categories.')->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('permission:show-category');
+        Route::post('/', 'store')->name('store')->middleware('permission:create-category');
+        Route::get('/create', 'create')->name('create')->middleware('permission:create-category');
+        Route::get('/{coupon}', 'show')->name('show')->middleware('permission:show-category');
+        Route::put('/{coupon}', 'update')->name('update')->middleware('permission:update-category');
+        Route::delete('/{coupon}', 'destroy')->name('destroy')->middleware('permission:delete-category');
+        Route::get('/{coupon}/edit', 'edit')->name('edit')->middleware('permission:update-category');
+    });
 
-    // Trang User
-    Route::resource('users', UserController::class);
+    // Route::resource('products', ProductController::class);
 
-    // Trang category
-    Route::resource('categories', CategoryController::class);
+    Route::prefix('products')->controller(ProductController::Class)->name('products.')->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('permission:show-product');
+        Route::post('/', 'store')->name('store')->middleware('permission:create-product');
+        Route::get('/create', 'create')->name('create')->middleware('permission:create-product');
+        Route::get('/{coupon}', 'show')->name('show')->middleware('permission:show-product');
+        Route::put('/{coupon}', 'update')->name('update')->middleware('permission:update-product');
+        Route::delete('/{coupon}', 'destroy')->name('destroy')->middleware('permission:delete-product');
+        Route::get('/{coupon}/edit', 'edit')->name('edit')->middleware('permission:update-product');
+    });
 
-    // Trang Product
-    Route::resource('products', ProductController::class);
+    Route::prefix('coupons')->controller(CounponController::Class)->name('coupons.')->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('permission:show-coupon');
+        Route::post('/', 'store')->name('store')->middleware('permission:create-coupon');
+        Route::get('/create', 'create')->name('create')->middleware('permission:create-coupon');
+        Route::get('/{coupon}', 'show')->name('show')->middleware('permission:show-coupon');
+        Route::put('/{coupon}', 'update')->name('update')->middleware('permission:update-coupon');
+        Route::delete('/{coupon}', 'destroy')->name('destroy')->middleware('permission:delete-coupon');
+        Route::get('/{coupon}/edit', 'edit')->name('edit')->middleware('permission:update-coupon');
+    });
 
-    // Mã giảm giá
-    Route::resource('coupons', CounponController::class);
+
 
     Route::get('orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
     Route::post('update-status/{id}', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.update_status');
-
 });
