@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CounponController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -52,9 +53,9 @@ Auth::routes();
 
 // Trang quan tri
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboad', function () {
-        return view('admin.dashboad.index');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
 
     // Route::resource('roles', RoleController::class);
     Route::prefix('roles')->controller(RoleController::Class)->name('roles.')->group(function () {
